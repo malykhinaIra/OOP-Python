@@ -14,13 +14,13 @@ class Rational:
         else:
             exit("Cannot divide by zero")
 
-    def printFraction(self):
-        print(str(self.__numerator) + '/' + str(self.__denominator))
+    def fraction(self):
+        return str(self.__numerator) + '/' + str(self.__denominator)
 
-    def printFloat(self):
-        print(self.__numerator/self.__denominator)
+    def calculation(self):
+        return self.__numerator/self.__denominator
 
 
-a = Rational(2, 0)
-a.printFraction()
-a.printFloat()
+a = Rational(2, 10)
+print(a.fraction())
+print(a.calculation())
