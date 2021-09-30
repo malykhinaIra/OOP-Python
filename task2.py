@@ -1,20 +1,17 @@
 import math
 
 
-
-
-
 class Rational:
 
     def __init__(self, numerator=1, denominator=1):
         try:
-            gcd = math.gcd(numerator, denominator)
+            divisor = math.gcd(int(numerator), int(denominator))
         except:
             print("Invalid input")
             exit(0)
         if denominator:
-            self.__numerator = numerator // gcd
-            self.__denominator = denominator // gcd
+            self.__numerator = int(numerator) // divisor
+            self.__denominator = int(denominator) // divisor
         else:
             print("Cannot divide by zero")
             exit(0)
@@ -26,6 +23,6 @@ class Rational:
         print(self.__numerator/self.__denominator)
 
 
-a = Rational(2, 8)
+a = Rational(input("Numerator: "), input("Denominator: "))
 a.printFraction()
 a.printFloat()

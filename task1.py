@@ -1,8 +1,10 @@
 class Rectangle:
 
     def __init__(self, length=1, width=1):
-        self.length = length
-        self.width = width
+        try:
+           self.setRectangle(float(length), float(width))
+        except:
+            exit(0)
 
     def area(self):
         return self.length * self.width
@@ -14,7 +16,7 @@ class Rectangle:
         return self.perimeter(),  self.area()
 
     def setRectangle(self, length, width):
-        if width < 0 or width > 20 or type(width) is not float or length < 0 or length > 20 or type(length) is not float:
+        if width <= 0 or width > 20 or length <= 0 or length > 20:
             print("Invalid input")
             exit(0)
         else:
@@ -22,6 +24,5 @@ class Rectangle:
             self.width = width
 
 
-a = Rectangle()
-a.setRectangle(5.0, 3.0)
+a = Rectangle(input("Length: "), input("Width: "))
 print(a.getRectangle())
