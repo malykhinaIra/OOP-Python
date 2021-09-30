@@ -7,14 +7,12 @@ class Rational:
         try:
             divisor = math.gcd(int(numerator), int(denominator))
         except:
-            print("Invalid input")
-            exit(0)
+            exit("Invalid input")
         if denominator:
             self.__numerator = int(numerator) // divisor
             self.__denominator = int(denominator) // divisor
         else:
-            print("Cannot divide by zero")
-            exit(0)
+            exit("Cannot divide by zero")
 
     def printFraction(self):
         print(str(self.__numerator) + '/' + str(self.__denominator))
@@ -23,6 +21,6 @@ class Rational:
         print(self.__numerator/self.__denominator)
 
 
-a = Rational(input("Numerator: "), input("Denominator: "))
+a = Rational(2, 0)
 a.printFraction()
 a.printFloat()
