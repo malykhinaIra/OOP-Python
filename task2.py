@@ -1,6 +1,9 @@
 import math
 
 
+
+
+
 class Rational:
 
     def __init__(self, numerator=1, denominator=1):
