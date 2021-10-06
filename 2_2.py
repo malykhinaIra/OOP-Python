@@ -9,7 +9,7 @@ class Text:
     def counting(self):
         with open(self.name) as file:
             text = file.read()
-        return f'{len(text)} {len(text.split())} {len(sent_tokenize(text))}'
+        return f'{len(text)} symbols, {len(text.split())} words, {len(sent_tokenize(text))} sentences'
 
 
 a = Text('test.txt')
