@@ -25,6 +25,7 @@ class Rectangle:
 
     def get_width(self):
         return self.width
+    
     def area(self):
         return self.length * self.width
 
