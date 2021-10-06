@@ -8,11 +8,11 @@ class Rational:
             raise ValueError("Numbers must be int values")
         else:
             divisor = math.gcd(numerator, denominator)
-        if denominator:
+        if not denominator:
+            raise ZeroDivisionError("Cannot divide by zero")
+        else:
             self.__numerator = numerator // divisor
             self.__denominator = denominator // divisor
-        else:
-            raise ZeroDivisionError("Cannot divide by zero")
 
     def fraction(self):
         return f'{self.__numerator}/{self.__denominator}'
