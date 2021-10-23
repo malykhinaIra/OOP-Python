@@ -92,7 +92,7 @@ class Group:
         self.__students = students
         for i, j in itertools.combinations(self.__students, 2):
             if i.surname is j.surname and i.name is j.name:
-                raise ValueError(i.surname + ' ' + i.name + ' ' + "is already in the group")
+                raise ValueError("There is already a student with the same name and surname")
 
     def add_student(self, student):
         """"Adds each student's data to the list"""
@@ -111,6 +111,8 @@ class Group:
         """"Removes each student's data from the list"""
         if not self.students:
             raise ValueError("No students were added yet")
+        if student not in self.students:
+            raise ValueError("There is no such student in the group")
         if not isinstance(student, Student):
             raise TypeError("Invalid type of student")
         self.students.remove(student)
@@ -131,5 +133,7 @@ s6 = Student('Oleh', 'Ivanov', 6, 2, 4, 7, 3)
 s7 = Student('Oksana', 'Pashko', 7, 4, 10, 7, 4)
 tv_list = [s1, s2, s3, s4, s5]
 tv = Group(tv_list)
+tv.remove_student(s1)
+tv.add_student(s7)
 for el in tv.top():
     print(el)

@@ -14,7 +14,7 @@ class Product:
         if not isinstance(price, int) and not isinstance(price, float):
             raise ValueError("Price has to be a number")
         if price <= 0:
-            raise ValueError("Positive numbers only")
+            raise ValueError("Price must be > 0")
         self.__price = price
 
     @property
@@ -24,9 +24,9 @@ class Product:
     @dimensions.setter
     def dimensions(self, dimensions):
         if not isinstance(dimensions, int):
-            raise ValueError("dimensions must be an integer number")
+            raise ValueError("Dimensions must be an integer number")
         if dimensions <= 0:
-            raise ValueError("Positive numbers only")
+            raise ValueError("Dimensions must be > 0")
         self.__dimensions = dimensions
 
     @property
@@ -104,6 +104,8 @@ class Order:
     """ Class describes an order."""
     def __init__(self, customer):
         self.products = []
+        if not isinstance(customer, Customer):
+            raise TypeError("Invalid type of customer")
         self.customer = customer
 
     def __str__(self):
