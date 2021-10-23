@@ -42,7 +42,7 @@ class Text:
             for st in file:
                 if not re.findall(r'[A-Za-z]', st):
                     continue
-                st = re.sub(r'[?!.]+(\s+[?!.]+)+', '. ', st)
+                st = re.sub(r'[?!.]+(\s+[?!.]+)+|[A-Za-z][?!.]+[A-Za-z]', '. ', st)
                 result += len(sent_tokenize(st))
         file.close()
         return result
