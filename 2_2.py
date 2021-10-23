@@ -1,5 +1,8 @@
 import os.path
-from nltk.tokenize import sent_tokenize
+import re
+import string
+
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 
 class Text:
@@ -26,7 +29,9 @@ class Text:
         result = 0
         with open(self.name, 'r') as file:
             for st in file:
-                result += len(st.split())
+                for i in string.punctuation:
+                    st = st.replace(i, ' ')
+                result += len(word_tokenize(st))
         file.close()
         return result
 
@@ -35,6 +40,9 @@ class Text:
         result = 0
         with open(self.name, 'r') as file:
             for st in file:
+                if not re.findall(r'[A-Za-z]', st):
+                    continue
+                st = re.sub(r'[?!.]+(\s+[?!.]+)+', '. ', st)
                 result += len(sent_tokenize(st))
         file.close()
         return result

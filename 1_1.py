@@ -1,6 +1,6 @@
 class Rectangle:
 
-    def __init__(self, length=1, width=1):
+    def __init__(self, length=None, width=None):
         self.length = length
         self.width = width
 
@@ -9,7 +9,7 @@ class Rectangle:
 
     @property
     def length(self):
-        return self._length
+        return self.__length
 
     @length.setter
     def length(self, length):
@@ -17,11 +17,11 @@ class Rectangle:
             raise TypeError("Length has to be float value")
         if length <= 0 or length >= 20:
             raise ValueError("Length has to be larger than 0.0 and less than 20.0")
-        self._length = length
+        self.__length = length
 
     @property
     def width(self):
-        return self._width
+        return self.__width
 
     @width.setter
     def width(self, width):
@@ -29,7 +29,7 @@ class Rectangle:
             raise TypeError("Width has to be float value")
         if width <= 0 or width >= 20:
             raise ValueError("Width has to be larger than 0.0 and less than 20.0")
-        self._width = width
+        self.__width = width
 
     def area(self):
         return self.length * self.width
