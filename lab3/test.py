@@ -2,9 +2,9 @@ import os
 import timeit
 import random
 
-# f = open("test.txt", "w")
-# while (os.path.getsize('test.txt') / 1000000) < 50:
-#     f.write(str(random.randint(1, 1000)) + '\n')
+f = open("test.txt", "w")
+while (os.path.getsize('test.txt') / 1000000) < 50:
+    f.write(str(random.randint(1, 1000)) + '\n')
 
 s = """
 file = open("test.txt", "r")
