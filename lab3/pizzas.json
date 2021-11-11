@@ -1,0 +1,71 @@
+{
+    "Ingredients": {
+        "tomatoes": 15,
+        "mozzarella": 30,
+        "mushrooms": 25,
+        "ham": 15
+    },
+    "Monday": {
+        "price": 100,
+        "name": "Margherita",
+        "ingredients": [
+            "tomatoes",
+            "mozzarella",
+            "ham"
+        ]
+    },
+    "Tuesday": {
+        "price": 200,
+        "name": "Carbonara",
+        "ingredients": [
+            "tomatoes",
+            "mozzarella",
+            "ham"
+        ]
+    },
+    "Wednesday": {
+        "price": 320,
+        "name": "Calzone",
+        "ingredients": [
+            "tomatoes",
+            "mozzarella",
+            "ham"
+        ]
+    },
+    "Thursday": {
+        "price": 180,
+        "name": "Capricciosa",
+        "ingredients": [
+            "tomatoes",
+            "mozzarella",
+            "ham"
+        ]
+    },
+    "Friday": {
+        "price": 299,
+        "name": "Gorgonzola",
+        "ingredients": [
+            "tomatoes",
+            "mozzarella",
+            "ham"
+        ]
+    },
+    "Saturday": {
+        "price": 250,
+        "name": "Americana",
+        "ingredients": [
+            "tomatoes",
+            "mozzarella",
+            "ham"
+        ]
+    },
+    "Sunday": {
+        "price": 300,
+        "name": "Meditterranea",
+        "ingredients": [
+            "tomatoes",
+            "mozzarella",
+            "ham"
+        ]
+    }
+}
