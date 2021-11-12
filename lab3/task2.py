@@ -14,8 +14,6 @@ def unique_id():
 with open('pizzas.json', 'r') as file:
     data = json.load(file)
 
-f = open('info.json', 'w')
-
 
 class Customer:
     """Class describes a customer"""
