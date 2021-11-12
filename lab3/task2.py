@@ -150,10 +150,10 @@ class Order:
 
     def buy_pizza_of_the_day(self):
         """Adds appropriate due to day of week pizza to the list"""
-        dict_pizza = {"Monday": MondayPizza(), "Tuesday": TuesdayPizza(), "Wednesday": WednesdayPizza(),
+        day_pizza_dict = {"Monday": MondayPizza(), "Tuesday": TuesdayPizza(), "Wednesday": WednesdayPizza(),
                       "Thursday": ThursdayPizza(),"Friday": FridayPizza(), "Saturday": SaturdayPizza(),
                       "Sunday": SundayPizza()}
-        self.pizza = dict_pizza[self.day]
+        self.pizza = day_pizza_dict[self.day]
 
         with open('pizzas.json', 'r') as f:
             pizzas_info = json.load(f)
