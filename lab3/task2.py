@@ -11,10 +11,6 @@ def unique_id():
         seed += 1
 
 
-with open('pizzas.json', 'r') as file:
-    data = json.load(file)
-
-
 class Customer:
     """Class describes a customer"""
 
@@ -154,20 +150,9 @@ class Order:
 
     def buy_pizza_of_the_day(self):
         """Adds appropriate due to day of week pizza to the list"""
-        if self.day == 'Monday':
-            self.pizza = MondayPizza()
-        elif self.day == 'Tuesday':
-            self.pizza = TuesdayPizza()
-        elif self.day == 'Wednesday':
-            self.pizza = WednesdayPizza()
-        elif self.day == 'Thursday':
-            self.pizza = ThursdayPizza()
-        elif self.day == 'Friday':
-            self.pizza = FridayPizza()
-        elif self.day == 'Saturday':
-            self.pizza = SaturdayPizza()
-        elif self.day == 'Sunday':
-            self.pizza = SundayPizza()
+        dict_pizza = {"Monday": MondayPizza(), "Tuesday": TuesdayPizza(), "Wednesday": WednesdayPizza(), "Thursday": ThursdayPizza(),
+                      "Friday": FridayPizza(), "Saturday": SaturdayPizza(), "Sunday": SundayPizza()}
+        self.pizza = dict_pizza[self.day]
 
         with open('pizzas.json', 'r') as f:
             pizzas_info = json.load(f)
@@ -185,6 +170,8 @@ class Order:
         return tmp
 
 
+with open('pizzas.json', 'r') as file:
+    data = json.load(file)
 order1 = Order(Customer('Malykhina', 'Iryna', 'Olehivna'), '12/11/2021')
 order1.buy_pizza_of_the_day()
 
