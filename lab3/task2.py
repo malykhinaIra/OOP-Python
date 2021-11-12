@@ -1,135 +1,20 @@
+import calendar
 import json
+import pprint
+import random
 
-info = {
-    "Ingredients":
-        {
-            "tomatoes": 15,
-            "mozzarella": 30,
-            "mushrooms": 25,
-            "ham": 15
-        },
-    "Monday": {
-        "price": 100,
-        "name": "Margherita",
-        "ingredients": [
-            "tomatoes",
-            "mozzarella",
-            "ham"
-        ]
-    },
-    "Tuesday": {
-        "price": 200,
-        "name": "Carbonara",
-        "ingredients": [
-            "tomatoes",
-            "mozzarella",
-            "ham"
-        ]
-    },
-    "Wednesday": {
-        "price": 320,
-        "name": "Calzone",
-        "ingredients": [
-            "tomatoes",
-            "mozzarella",
-            "ham"
-        ]
-    },
-    "Thursday": {
-        "price": 180,
-        "name": "Capricciosa",
-        "ingredients": [
-            "tomatoes",
-            "mozzarella",
-            "ham"
-        ]
-    },
-    "Friday": {
-        "price": 299,
-        "name": "Gorgonzola",
-        "ingredients": [
-            "tomatoes",
-            "mozzarella",
-            "ham"
-        ]
-    },
-    "Saturday": {
-        "price": 250,
-        "name": "Americana",
-        "ingredients": [
-            "tomatoes",
-            "mozzarella",
-            "ham"
-        ]
-    },
-    "Sunday": {
-        "price": 300,
-        "name": "Meditterranea",
-        "ingredients": [
-            "tomatoes",
-            "mozzarella",
-            "ham"
-        ]
-    }
-}
-with open('pizzas.json', 'w') as file:
-    json.dump(info, file, indent=4)
+
+def unique_id():
+    seed = random.getrandbits(32)
+    while True:
+        yield seed
+        seed += 1
+
 
 with open('pizzas.json', 'r') as file:
     data = json.load(file)
 
-
-class Pizza:
-    """ Class describes a pizza."""
-
-    def __init__(self, day):
-        self.day = day
-        self.name = data[day]["name"]
-        self.price = data[day]["price"]
-        self.ingredients = data[day]["ingredients"]
-
-    def add_ingredient(self, *ingredients):
-        """ Adds ingredients to pizza and calculates new price."""
-        for ingredient in ingredients:
-            if ingredient not in data["Ingredients"]:
-                raise ValueError("Such ingredient is not available")
-            self.ingredients.append(ingredient)
-            self.price += data["Ingredients"][ingredient]
-
-
-class MondayPizza(Pizza):
-    def __init__(self):
-        Pizza.__init__(self, "Monday")
-
-
-class TuesdayPizza(Pizza):
-    def __init__(self):
-        Pizza.__init__(self, "Tuesday")
-
-
-class WednesdayPizza(Pizza):
-    def __init__(self):
-        Pizza.__init__(self, "Wednesday")
-
-
-class ThursdayPizza(Pizza):
-    def __init__(self):
-        Pizza.__init__(self, "Thursday")
-
-
-class FridayPizza(Pizza):
-    def __init__(self):
-        Pizza.__init__(self, "Friday")
-
-
-class SaturdayPizza(Pizza):
-    def __init__(self):
-        Pizza.__init__(self, "Saturday")
-
-
-class SundayPizza(Pizza):
-    def __init__(self):
-        Pizza.__init__(self, "Sunday")
+f = open('info.json', 'w')
 
 
 class Customer:
@@ -141,7 +26,7 @@ class Customer:
         self.patronymic = patronymic
 
     def __str__(self):
-        return f'customer {self.surname} {self.name} {self.patronymic}'
+        return f'{self.surname} {self.name} {self.patronymic}'
 
     @property
     def surname(self):
@@ -180,13 +65,69 @@ class Customer:
         self.__patronymic = patronymic
 
 
+class Pizza:
+    """ Class describes a pizza."""
+
+    def __init__(self, day=""):
+        self.name = data[day]["name"]
+        self.price = data[day]["price"]
+        self.ingredients = data[day]["ingredients"]
+
+    def __repr__(self):
+        return f'{self.name, self.ingredients}'
+
+    def add_ingredient(self, *ingredients):
+        """ Adds ingredients to pizza and calculates new price."""
+        for ingredient in ingredients:
+            if ingredient not in data["Ingredients"]:
+                raise ValueError("Such ingredient is not available")
+            self.ingredients.append(ingredient)
+            self.price += data["Ingredients"][ingredient]
+
+
+class MondayPizza(Pizza):
+    def __init__(self):
+        super().__init__("Monday")
+
+
+class TuesdayPizza(Pizza):
+    def __init__(self):
+        super().__init__("Tuesday")
+
+
+class WednesdayPizza(Pizza):
+    def __init__(self):
+        super().__init__("Wednesday")
+
+
+class ThursdayPizza(Pizza):
+    def __init__(self):
+        super().__init__("Thursday")
+
+
+class FridayPizza(Pizza):
+    def __init__(self):
+        super().__init__("Friday")
+
+
+class SaturdayPizza(Pizza):
+    def __init__(self):
+        super().__init__("Saturday")
+
+
+class SundayPizza(Pizza):
+    def __init__(self):
+        super().__init__("Sunday")
+
+
 class Order:
     """ Class describes an order."""
 
-    def __init__(self, customer, day):
-        self.day = day
-        self.pizza = Pizza(day)
+    def __init__(self, customer, date):
+        self.id = next(unique_id())
         self.customer = customer
+        self.day = date
+        self.pizza = Pizza()
         self.pizzas = []
 
     @property
@@ -204,15 +145,13 @@ class Order:
         return self.__day
 
     @day.setter
-    def day(self, day):
-        if not isinstance(day, str):
-            raise TypeError("Invalid type of day")
-        if day not in data.keys():
-            raise ValueError("Such day does not exist")
-        self.__day = day
+    def day(self, date):
+        days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        day, month, year = (int(x) for x in date.split('/'))
+        self.__day = days[calendar.weekday(year, month, day)]
 
     def __str__(self):
-        return f'Order for {self.customer}:\n{len(self.pizzas)} pizza(s)-of-the-day ' \
+        return f'Order for {self.customer}:\n{len(self.pizzas)} pizza(s)-of-{self.day} ' \
                f'"{self.pizza.name}", total price {self.total_price}\n'
 
     def buy_pizza_of_the_day(self):
@@ -231,15 +170,13 @@ class Order:
             self.pizza = SaturdayPizza()
         elif self.day == 'Sunday':
             self.pizza = SundayPizza()
-        else:
-            raise ValueError("Invalid day of week")
 
         with open('pizzas.json', 'r') as f:
             pizzas_info = json.load(f)
 
         self.pizza.ingredients = pizzas_info[self.day]["ingredients"]
-        f.close()
         self.pizzas.append(self.pizza)
+
 
     @property
     def total_price(self):
@@ -250,10 +187,23 @@ class Order:
         return tmp
 
 
-c1 = Customer('Malykhina', 'Iryna', 'Olehivna')
-order1 = Order(c1, 'Tuesday')
+order1 = Order(Customer('Malykhina', 'Iryna', 'Olehivna'), '12/11/2021')
 order1.buy_pizza_of_the_day()
-order1.buy_pizza_of_the_day()
-order1.pizza.add_ingredient("mushrooms")
-order1.buy_pizza_of_the_day()
+
+order2 = Order(Customer('Melnyk', 'Oksana', 'Romanivna'), '13/11/2021')
+order2.buy_pizza_of_the_day()
+order2.buy_pizza_of_the_day()
+order2.pizza.add_ingredient("pineapple")
+order2.buy_pizza_of_the_day()
+
 print(order1)
+print(order2)
+
+orders = {order1.id: order1.__dict__}
+orders.update({order2.id: order2.__dict__})
+with open('info.json', 'a+') as f:
+    json.dump(orders, f, indent=4, default=str)
+
+
+# with open('info.json', 'r') as f:
+#     pprint.pprint(json.load(f))
