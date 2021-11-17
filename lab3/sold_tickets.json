@@ -1,0 +1,20 @@
+{
+   "25019": {
+      "id": "25019",
+      "_Ticket__customer": "Malykhina Iryna Olehivna",
+      "_Ticket__event": "Event1 18.11.2021",
+      "_Ticket__price": 90.0
+   },
+   "70833": {
+      "id": "70833",
+      "_Ticket__customer": "Malykhina Iryna Olehivna",
+      "_Ticket__event": "Event2 05.12.2022",
+      "_Ticket__price": 60.0
+   },
+   "13961": {
+      "id": "13961",
+      "_Ticket__customer": "Melnyk Oksana Romanivna",
+      "_Ticket__event": "Event2 05.12.2022",
+      "_Ticket__price": 50.0
+   }
+}
