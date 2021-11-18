@@ -63,69 +63,6 @@ class Customer:
         self.__student = student
 
 
-class Ticket:
-    """Class describes a ticket"""
-    def __init__(self, customer, event):
-        self.id = str(uuid.uuid4().fields[-1])[:5]
-        self.customer = customer
-        self.event = event
-        self.price = self.event.price
-
-    @property
-    def customer(self):
-        return self.__customer
-
-    @customer.setter
-    def customer(self, customer):
-        if not isinstance(customer, Customer):
-            raise TypeError("Invalid type of customer")
-        self.__customer = customer
-
-    @property
-    def event(self):
-        return self.__event
-
-    @event.setter
-    def event(self, event):
-        if not isinstance(event, Event):
-            raise TypeError("Invalid type of event")
-        self.__event = event
-
-    @property
-    def price(self):
-        return self.__price
-
-    @price.setter
-    def price(self, price):
-        if not isinstance(price, float) and not isinstance(price, int):
-            raise TypeError("Invalid type of price")
-        self.__price = price
-
-    def __str__(self):
-        return f'{self.customer}, price: {self.price}, date of event "{self.event.name}": {self.event.event_date}'
-
-
-class Event:
-    """Class describes an event"""
-    def __init__(self, name):
-        self.name = name
-        self.event_date = data[name]['event_date']
-        self.price = data[name]['price']
-
-    @property
-    def name(self):
-        return self.__name
-
-    @name.setter
-    def name(self, name):
-        if not isinstance(name, str):
-            raise TypeError("Invalid type of name")
-        self.__name = name
-
-    def __str__(self):
-        return f'{self.name} {self.event_date}'
-
-
 class Order:
     """Class describes an order"""
     def __init__(self, event_name, customer):
@@ -174,6 +111,48 @@ class Order:
         return x
 
 
+class Ticket:
+    """Class describes a ticket"""
+    def __init__(self, customer, event):
+        self.id = str(uuid.uuid4().fields[-1])[:5]
+        self.customer = customer
+        self.event = event
+        self.price = self.event.price
+
+    @property
+    def customer(self):
+        return self.__customer
+
+    @customer.setter
+    def customer(self, customer):
+        if not isinstance(customer, Customer):
+            raise TypeError("Invalid type of customer")
+        self.__customer = customer
+
+    @property
+    def event(self):
+        return self.__event
+
+    @event.setter
+    def event(self, event):
+        if not isinstance(event, Event):
+            raise TypeError("Invalid type of event")
+        self.__event = event
+
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, price):
+        if not isinstance(price, float) and not isinstance(price, int):
+            raise TypeError("Invalid type of price")
+        self.__price = price
+
+    def __str__(self):
+        return f'{self.customer}, price: {self.price}, date of event "{self.event.name}": {self.event.event_date}'
+
+
 class AdvanceTicket(Ticket):
     def __init__(self, customer, event):
         super().__init__(customer, event)
@@ -192,15 +171,36 @@ class LateTicket(Ticket):
         self.price *= LATE_DISCOUNT
 
 
-with open('events.json', 'r') as file:
-    data = json.load(file)
-tickets = {}
+class Event:
+    """Class describes an event"""
+    def __init__(self, name):
+        self.name = name
+        self.event_date = data[name]['event_date']
+        self.price = data[name]['price']
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        if not isinstance(name, str):
+            raise TypeError("Invalid type of name")
+        self.__name = name
+
+    def __str__(self):
+        return f'{self.name} {self.event_date}'
+
 
 c1 = Customer('Malykhina', 'Iryna', 'Olehivna')
 c2 = Customer('Melnyk', 'Oksana', 'Romanivna', student=True)
+tickets = {}
+with open('events.json', 'r') as file:
+    data = json.load(file)
 order1 = Order('Event1', c1)
 order2 = Order('Event2', c1)
 order3 = Order('Event2', c2)
+
 order1.sell_ticket()
 order2.sell_ticket()
 order3.sell_ticket()
