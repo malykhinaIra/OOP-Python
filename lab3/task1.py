@@ -186,7 +186,7 @@ class StudentTicket(Ticket):
         self.price *= STUDENT_DISCOUNT
 
 
-class LateTicket(Ticket, Event):
+class LateTicket(Ticket):
     def __init__(self, customer, event):
         super().__init__(customer, event)
         self.price *= LATE_DISCOUNT
