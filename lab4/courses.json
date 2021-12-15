@@ -1,0 +1,57 @@
+{
+     "1": {
+          "id_number": 1,
+          "name": "Java",
+          "teacher": "Kovaliov Mykola Serhiiovych, courses: ['Java']",
+          "course_program": [
+               "a",
+               "b",
+               "c"
+          ],
+          "course_type": "local"
+     },
+     "2": {
+          "id_number": 2,
+          "name": "HTML",
+          "teacher": "Vladimirov Oleksii Glibobych, courses: ['HTML', 'CSS']",
+          "course_program": [
+               "d",
+               "e",
+               "f"
+          ],
+          "course_type": "offsite"
+     },
+     "3": {
+          "id_number": 3,
+          "name": "JS",
+          "teacher": "Avramenko Yurii Olehovych, courses: ['JS']",
+          "course_program": [
+               "d",
+               "e",
+               "f"
+          ],
+          "course_type": "offsite"
+     },
+     "4": {
+          "id_number": 4,
+          "name": "Python",
+          "teacher": "Egorov Artem Olehovych, courses: ['Java', 'Python']",
+          "course_program": [
+               "a",
+               "b",
+               "c"
+          ],
+          "course_type": "local"
+     },
+     "5": {
+          "id_number": 5,
+          "name": "C#",
+          "teacher": "Ivanov Ivan Ihorovych, courses: ['C#']",
+          "course_program": [
+               "d",
+               "e",
+               "f"
+          ],
+          "course_type": "offsite"
+     }
+}

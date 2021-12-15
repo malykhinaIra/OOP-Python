@@ -1,0 +1,39 @@
+{
+     "1": {
+          "id_number": 1,
+          "surname": "Kovaliov",
+          "name": "Mykola",
+          "patronymic": "Serhiiovych",
+          "courses": [
+               "Java"
+          ]
+     },
+     "2": {
+          "id_number": 2,
+          "surname": "Avramenko",
+          "name": "Yurii",
+          "patronymic": "Olehovych",
+          "courses": [
+               "JS"
+          ]
+     },
+     "3": {
+          "id_number": 3,
+          "surname": "Egorov",
+          "name": "Artem",
+          "patronymic": "Olehovych",
+          "courses": [
+               "Java",
+               "Python"
+          ]
+     },
+     "4": {
+          "id_number": 4,
+          "surname": "Ivanov",
+          "name": "Ivan",
+          "patronymic": "Ihorovych",
+          "courses": [
+               "C#"
+          ]
+     }
+}
