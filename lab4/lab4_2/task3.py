@@ -221,11 +221,11 @@ class ICourseFactory(ABC):
         pass
 
     @abstractmethod
-    def create_course(self):
+    def create_course(self, id_number, name, teacher, course_program, course_type):
         pass
 
     @abstractmethod
-    def create_teacher(self):
+    def create_teacher(self, id_number, surname, name, patronymic, *courses):
         pass
 
 
