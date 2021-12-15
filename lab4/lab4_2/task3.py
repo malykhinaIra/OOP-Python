@@ -4,6 +4,8 @@ from pprint import pprint
 
 
 class ICourse(ABC):
+    """An interface of the course."""
+
     @abstractmethod
     def __init__(self):
         pass
@@ -14,6 +16,8 @@ class ICourse(ABC):
 
 
 class Course(ICourse):
+    """Class describes a course."""
+
     def __init__(self, id_number, name, teacher, course_program, course_type):
         self.id_number = id_number
         self.name = name
@@ -81,28 +85,38 @@ class Course(ICourse):
 
 
 class ILocalCourse(ABC):
+    """An interface of the local course."""
+
     @abstractmethod
     def __init__(self):
         pass
 
 
 class LocalCourse(Course, ILocalCourse):
+    """Class describes a local course."""
+
     def __init__(self, id_number, name, teacher, course_program, course_type):
         super().__init__(id_number, name, teacher, course_program, course_type)
 
 
 class IOffsiteCourse(ABC):
+    """An interface of the offsite course."""
+
     @abstractmethod
     def __init__(self):
         pass
 
 
 class OffsiteCourse(Course, IOffsiteCourse):
+    """Class describes an offsite course."""
+
     def __init__(self, id_number, name, teacher, course_program, course_type):
         super().__init__(id_number, name, teacher, course_program, course_type)
 
 
 class ITeacher(ABC):
+    """An interface of the teacher."""
+
     @abstractmethod
     def __init__(self):
         pass
@@ -117,6 +131,8 @@ class ITeacher(ABC):
 
 
 class Teacher(ITeacher):
+    """Class describes a teacher."""
+
     def __init__(self, id_number, surname, name, patronymic, *courses):
         self.id_number = id_number
         self.surname = surname
@@ -198,6 +214,8 @@ class Teacher(ITeacher):
 
 
 class ICourseFactory(ABC):
+    """An interface of the factory."""
+
     @abstractmethod
     def __init__(self):
         pass
@@ -212,6 +230,8 @@ class ICourseFactory(ABC):
 
 
 class CourseFactory(ICourseFactory):
+    """Class describes a factory to create teachers and courses."""
+
     def __init__(self):
         self.courses = {}
         self.teachers = {}
@@ -248,12 +268,13 @@ class CourseFactory(ICourseFactory):
         return self.teachers[str(id_number)]
 
 
-CF = CourseFactory()
-t1 = CF.create_teacher(3, "Egorov", "Artem", "Olehovych", "Java")
-t2 = CF.create_teacher(4, "Ivanov", "Ivan", "Ihorovych")
-c1 = CF.create_course(4, "Python", t1, ['a', 'b', 'c'], course_type="local")
-c2 = CF.create_course(5, "C#", t2, ['d', 'e', 'f'], course_type="offsite")
-print(c1)
-print(c2)
-print('\n')
-pprint(CF.teachers, sort_dicts=False)
+if __name__ == "__main__":
+    cf = CourseFactory()
+    t1 = cf.create_teacher(3, "Egorov", "Artem", "Olehovych", "Java")
+    t2 = cf.create_teacher(4, "Ivanov", "Ivan", "Ihorovych")
+    c1 = cf.create_course(4, "Python", t1, ['a', 'b', 'c'], course_type="local")
+    c2 = cf.create_course(5, "C#", t2, ['d', 'e', 'f'], course_type="offsite")
+    print(c1)
+    print(c2)
+    print('\n')
+    pprint(cf.teachers, sort_dicts=False)
