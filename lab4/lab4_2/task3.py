@@ -1,232 +1,9 @@
 import json
-from abc import ABC, abstractmethod
 from pprint import pprint
-
-
-class ICourse(ABC):
-    """An interface of the course."""
-
-    @abstractmethod
-    def __init__(self):
-        pass
-
-    @abstractmethod
-    def __str__(self):
-        pass
-
-
-class Course(ICourse):
-    """Class describes a course."""
-
-    def __init__(self, id_number, name, teacher, course_program, course_type):
-        self.id_number = id_number
-        self.name = name
-        self.teacher = teacher
-        self.course_program = course_program
-        self.course_type = course_type
-
-    @property
-    def id_number(self):
-        return self.__id_number
-
-    @id_number.setter
-    def id_number(self, id_number):
-        if not isinstance(id_number, int):
-            raise TypeError("id_number must be an int value")
-        if id_number <= 0:
-            raise ValueError("Positive numbers only")
-        self.__id_number = id_number
-
-    @property
-    def name(self):
-        return self.__name
-
-    @name.setter
-    def name(self, name):
-        if not isinstance(name, str):
-            raise TypeError("name must be str value")
-        self.__name = name
-
-    @property
-    def teacher(self):
-        return self.__teacher
-
-    @teacher.setter
-    def teacher(self, teacher):
-        if not isinstance(teacher, Teacher):
-            raise TypeError("teacher must be Teacher value")
-        self.__teacher = teacher
-
-    @property
-    def course_program(self):
-        return self.__course_program
-
-    @course_program.setter
-    def course_program(self, course_program):
-        if not isinstance(course_program, list) or not all(isinstance(x, str) for x in course_program):
-            raise TypeError("course_program must be a list of str")
-        self.__course_program = course_program
-
-    @property
-    def course_type(self):
-        return self.__course_type
-
-    @course_type.setter
-    def course_type(self, course_type):
-        if not isinstance(course_type, str):
-            raise TypeError("course_type must be str value")
-        if course_type not in ("offsite", "local"):
-            raise ValueError("Invalid course_type")
-        self.__course_type = course_type
-
-    def __str__(self):
-        return f'{self.course_type} course "{self.name}", teacher: {self.teacher.surname} ' \
-               f'{self.teacher.name} {self.teacher.patronymic}\nProgram of the course: {self.course_program}'
-
-
-class ILocalCourse(ABC):
-    """An interface of the local course."""
-
-    @abstractmethod
-    def __init__(self):
-        pass
-
-
-class LocalCourse(Course, ILocalCourse):
-    """Class describes a local course."""
-
-    def __init__(self, id_number, name, teacher, course_program, course_type):
-        super().__init__(id_number, name, teacher, course_program, course_type)
-
-
-class IOffsiteCourse(ABC):
-    """An interface of the offsite course."""
-
-    @abstractmethod
-    def __init__(self):
-        pass
-
-
-class OffsiteCourse(Course, IOffsiteCourse):
-    """Class describes an offsite course."""
-
-    def __init__(self, id_number, name, teacher, course_program, course_type):
-        super().__init__(id_number, name, teacher, course_program, course_type)
-
-
-class ITeacher(ABC):
-    """An interface of the teacher."""
-
-    @abstractmethod
-    def __init__(self):
-        pass
-
-    @abstractmethod
-    def __repr__(self):
-        pass
-
-    @abstractmethod
-    def add_course(self, course):
-        pass
-
-
-class Teacher(ITeacher):
-    """Class describes a teacher."""
-
-    def __init__(self, id_number, surname, name, patronymic, *courses):
-        self.id_number = id_number
-        self.surname = surname
-        self.name = name
-        self.patronymic = patronymic
-        self.courses = courses
-
-    @property
-    def id_number(self):
-        return self.__id_number
-
-    @id_number.setter
-    def id_number(self, id_number):
-        if not isinstance(id_number, int):
-            raise TypeError("id_number must be an int value")
-        if id_number <= 0:
-            raise ValueError("Positive numbers only")
-        self.__id_number = id_number
-
-    @property
-    def surname(self):
-        return self.__surname
-
-    @surname.setter
-    def surname(self, surname):
-        if not isinstance(surname, str):
-            raise TypeError("Invalid type of surname")
-        if any(map(str.isdigit, surname)):
-            raise ValueError("Invalid surname")
-        self.__surname = surname
-
-    @property
-    def name(self):
-        return self.__name
-
-    @name.setter
-    def name(self, name):
-        if not isinstance(name, str):
-            raise TypeError("Invalid type of name")
-        if any(map(str.isdigit, name)):
-            raise ValueError("Invalid name")
-        self.__name = name
-
-    @property
-    def patronymic(self):
-        return self.__patronymic
-
-    @patronymic.setter
-    def patronymic(self, patronymic):
-        if not isinstance(patronymic, str):
-            raise TypeError("Invalid type of patronymic")
-        if any(map(str.isdigit, patronymic)):
-            raise ValueError("Invalid patronymic")
-        self.__patronymic = patronymic
-
-    @id_number.setter
-    def id_number(self, id_number):
-        if not isinstance(id_number, int):
-            raise TypeError("id_number must be an int value")
-        if id_number <= 0:
-            raise ValueError("Positive numbers only")
-        self.__id_number = id_number
-
-    @property
-    def courses(self):
-        return self.__courses
-
-    @courses.setter
-    def courses(self, courses):
-        self.__courses = []
-        if courses:
-            self.__courses = list(courses)
-
-    def add_course(self, course):
-        self.courses.append(course)
-
-    def __repr__(self):
-        return f'{self.surname} {self.name} {self.patronymic}, courses: {self.courses}'
-
-
-class ICourseFactory(ABC):
-    """An interface of the factory."""
-
-    @abstractmethod
-    def __init__(self):
-        pass
-
-    @abstractmethod
-    def create_course(self, id_number, name, teacher, course_program, course_type):
-        pass
-
-    @abstractmethod
-    def create_teacher(self, id_number, surname, name, patronymic, *courses):
-        pass
+import jsonschema
+from jsonschema import validate
+from courses import *
+from teacher import *
 
 
 class CourseFactory(ICourseFactory):
@@ -235,37 +12,194 @@ class CourseFactory(ICourseFactory):
     def __init__(self):
         self.courses = {}
         self.teachers = {}
+        self.json_file = JsonFile()
 
-    def create_teacher(self, id_number, surname, name, patronymic, *courses):
-        with open("teachers.json", 'r') as file:
-            self.teachers = json.load(file)
+    def create_teacher(self, id_number: int, surname: str, name: str, patronymic: str, *courses) -> Teacher:
+        self.teachers = self.json_file.file_read("teachers.json", self.teachers)
         teacher = Teacher(id_number, surname, name, patronymic, *courses)
+        self.json_file.json_validate(teacher)
         self.teachers[str(teacher.id_number)] = teacher.__dict__
-        with open("teachers.json", 'w') as file:
-            json.dump(self.teachers, file, indent=5, default=str)
+        self.json_file.file_write("teachers.json", self.teachers)
         return teacher
 
-    def create_course(self, id_number, name, teacher, course_program, course_type):
-        with open("courses.json", 'r') as file:
-            self.courses = json.load(file)
+    def create_course(self, id_number: int, name: str, teacher: Teacher, course_program: list[str],
+                      course_type: str) -> Course:
         course_types = {"local": LocalCourse, "offsite": OffsiteCourse}
         course = course_types[course_type](id_number, name, teacher, course_program, course_type)
+        self.courses = self.json_file.file_read("courses.json", self.courses)
+        self.teachers = self.json_file.file_read("teachers.json", self.teachers)
         teacher.add_course(course.name)
-        with open("teachers.json", 'r') as f:
-            self.teachers = json.load(f)
+        self.json_file.json_validate(teacher)
         self.teachers[str(teacher.id_number)] = teacher.__dict__
-        with open("teachers.json", 'w') as f:
-            json.dump(self.teachers, f, default=str, indent=5)
+        self.json_file.file_write("teachers.json", self.teachers)
+        self.json_file.json_validate(course)
         self.courses[str(course.id_number)] = course.__dict__
-        with open("courses.json", 'w') as file:
-            json.dump(self.courses, file, default=str, indent=5)
+        self.json_file.file_write("courses.json", self.courses)
         return course
 
-    def get_course(self, id_number):
+    def get_course(self, id_number: int) -> dict:
         return self.courses[str(id_number)]
 
-    def get_teacher(self, id_number):
+    def get_teacher(self, id_number: int) -> dict:
         return self.teachers[str(id_number)]
+
+
+class JsonFile:
+    """Class describes a json file"""
+    def __init__(self):
+        self.teacher_schema = {
+            "type": "object",
+            "title": "The teacher schema",
+            "default": {},
+            "examples": [
+                {
+                    "id_number": 3,
+                    "surname": "Egorov",
+                    "name": "Artem",
+                    "patronymic": "Olehovych",
+                    "_Teacher__courses": [
+                        "Java",
+                        "Python"
+                    ]
+                }
+            ],
+            "required": [
+                "id_number",
+                "surname",
+                "name",
+                "patronymic",
+                "_Teacher__courses"
+            ],
+            "properties": {
+                "id_number": {
+                    "type": "integer",
+                    "title": "The id_number schema",
+                    "default": 0,
+                    "examples": [
+                        3
+                    ]
+                },
+                "surname": {
+                    "type": "string",
+                    "title": "The surname schema",
+                    "default": "",
+                    "examples": [
+                        "Egorov"
+                    ]
+                },
+                "name": {
+                    "type": "string",
+                    "title": "The name schema",
+                    "default": "",
+                    "examples": [
+                        "Artem"
+                    ]
+                },
+                "patronymic": {
+                    "type": "string",
+                    "title": "The patronymic schema",
+                    "default": "",
+                    "examples": [
+                        "Olehovych"
+                    ]
+                },
+                "_Teacher__courses": {
+                    "type": "array",
+                    "title": "The _Teacher__courses schema",
+                    "default": [],
+                    "examples": [
+                        [
+                            "Java",
+                            "Python"
+                        ]
+                    ]
+                }
+            }
+        }
+        self.course_schema = {
+            "type": "object",
+            "title": "The course schema",
+            "default": {},
+            "examples": [
+                {
+                    "id_number": 1,
+                    "name": "Java",
+                    "teacher": "Kovaliov Mykola Serhiiovych, courses: ['Java']",
+                    "course_program": [
+                        "a",
+                        "b",
+                        "c"
+                    ],
+                    "course_type": "local"
+                }
+            ],
+            "required": [
+                "id_number",
+                "name",
+                "teacher",
+                "course_program",
+                "course_type"
+            ],
+            "properties": {
+                "id_number": {
+                    "type": "integer",
+                    "title": "The id_number schema",
+                    "default": 0,
+                    "examples": [
+                        1
+                    ]
+                },
+                "name": {
+                    "type": "string",
+                    "title": "The name schema",
+                    "default": "",
+                    "examples": [
+                        "Java"
+                    ]
+                },
+                "course_program": {
+                    "type": "array",
+                    "title": "The course_program schema",
+                    "default": [],
+                    "examples": [
+                        [
+                            "a",
+                            "b"
+                        ]
+                    ]
+                },
+                "course_type": {
+                    "type": "string",
+                    "title": "The course_type schema",
+                    "default": "",
+                    "examples": [
+                        "local"
+                    ]
+                }
+            }
+        }
+
+    def json_validate(self, value):
+        try:
+            if isinstance(value, Teacher):
+                validate(instance=value.__dict__, schema=self.teacher_schema)
+            elif isinstance(value, Course):
+                validate(instance=value.__dict__, schema=self.course_schema)
+            else:
+                raise TypeError
+        except jsonschema.exceptions.ValidationError as e:
+            raise e
+
+    @staticmethod
+    def file_write(file_name, value):
+        with open(file_name, 'w') as file:
+            json.dump(value, file, default=str, indent=5)
+
+    @staticmethod
+    def file_read(file_name, value) -> dict:
+        with open(file_name, 'r') as file:
+            value = json.load(file)
+        return value
 
 
 if __name__ == "__main__":
@@ -274,7 +208,6 @@ if __name__ == "__main__":
     t2 = cf.create_teacher(4, "Ivanov", "Ivan", "Ihorovych")
     c1 = cf.create_course(4, "Python", t1, ['a', 'b', 'c'], course_type="local")
     c2 = cf.create_course(5, "C#", t2, ['d', 'e', 'f'], course_type="offsite")
-    print(c1)
-    print(c2)
-    print('\n')
-    pprint(cf.teachers, sort_dicts=False)
+
+    print(cf.get_course(2))
+    pprint(cf.courses, sort_dicts=False)

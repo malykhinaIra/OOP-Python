@@ -151,8 +151,8 @@ class Order:
     def buy_pizza_of_the_day(self):
         """Adds appropriate due to day of week pizza to the list"""
         day_pizza_dict = {"Monday": MondayPizza(), "Tuesday": TuesdayPizza(), "Wednesday": WednesdayPizza(),
-                      "Thursday": ThursdayPizza(),"Friday": FridayPizza(), "Saturday": SaturdayPizza(),
-                      "Sunday": SundayPizza()}
+                          "Thursday": ThursdayPizza(), "Friday": FridayPizza(), "Saturday": SaturdayPizza(),
+                          "Sunday": SundayPizza()}
         self.pizza = day_pizza_dict[self.day]
 
         with open('pizzas.json', 'r') as f:
@@ -186,9 +186,8 @@ print(order2)
 
 orders = {order1.id: order1.__dict__}
 orders.update({order2.id: order2.__dict__})
-with open('info.json', 'a+') as f:
+with open('sold_tickets.json', 'a+') as f:
     json.dump(orders, f, indent=4, default=str)
 
-
-# with open('info.json', 'r') as f:
+# with open('sold_tickets.json', 'r') as f:
 #     pprint.pprint(json.load(f))

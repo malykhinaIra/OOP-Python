@@ -15,8 +15,7 @@ class Rational:
             other = Rational(other)
         res_numerator = self.numerator * other.denominator + other.numerator * self.denominator
         res_denominator = other.denominator * self.denominator
-        return f'{res_numerator // math.gcd(res_numerator, res_denominator)}' \
-               f'/{res_denominator // math.gcd(res_numerator, res_denominator)}'
+        return Rational(res_numerator, res_denominator)
 
     def __iadd__(self, other):
         if not isinstance(other, (int, Rational)):
@@ -34,8 +33,7 @@ class Rational:
             other = Rational(other)
         res_numerator = self.numerator * other.denominator - other.numerator * self.denominator
         res_denominator = other.denominator * self.denominator
-        return f'{res_numerator // math.gcd(res_numerator, res_denominator)}' \
-               f'/{res_denominator // math.gcd(res_numerator, res_denominator)}'
+        return Rational(res_numerator, res_denominator)
 
     def __isub__(self, other):
         if not isinstance(other, (int, Rational)):
@@ -53,8 +51,7 @@ class Rational:
             other = Rational(other)
         res_numerator = self.numerator * other.numerator
         res_denominator = other.denominator * self.denominator
-        return f'{res_numerator // math.gcd(res_numerator, res_denominator)}' \
-               f'/{res_denominator // math.gcd(res_numerator, res_denominator)}'
+        return Rational(res_numerator, res_denominator)
 
     def __imul__(self, other):
         if not isinstance(other, (int, Rational)):
@@ -72,8 +69,7 @@ class Rational:
             other = Rational(other)
         res_numerator = self.numerator * other.denominator
         res_denominator = self.denominator * other.numerator
-        return f'{res_numerator // math.gcd(res_numerator, res_denominator)}' \
-               f'/{res_denominator // math.gcd(res_numerator, res_denominator)}'
+        return Rational(res_numerator, res_denominator)
 
     def __itruediv__(self, other):
         if not isinstance(other, (int, Rational)):
@@ -117,7 +113,7 @@ class Rational:
             raise TypeError("Invalid type")
         if isinstance(other, int):
             other = Rational(other)
-        return self.numerator == other.numerator and self.denominator == other.denominator
+        return (self.numerator, self.denominator) == (other.numerator, other.denominator)
 
     @property
     def numerator(self):
@@ -141,7 +137,7 @@ class Rational:
             raise ZeroDivisionError("Cannot divide by zero")
         self.__denominator = denominator // self.divisor
 
-    def fraction(self):
+    def __str__(self):
         return f'{self.numerator}/{self.denominator}'
 
     def calculation(self):
@@ -151,10 +147,10 @@ class Rational:
 a = Rational(1, 2)
 b = Rational(6, 10)
 
-print(a.fraction())
+print(a)
 print(a + b)
 print(a - 1)
-print(a * 2)
+print(a * 3)
 print(a == 2)
 a -= 1
-print(a.fraction())
+print(a)

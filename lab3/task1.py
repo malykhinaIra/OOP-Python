@@ -94,7 +94,7 @@ class Order:
         """ Adds appropriate ticket to the dictionary."""
         if datetime.strptime(self.event.event_date, "%d.%m.%Y") < datetime.strptime(self.current_date, "%d.%m.%Y"):
             raise ValueError("Event has already past")
-        if self.customer.student is True:
+        if self.customer.student:
             self.ticket = StudentTicket(self.customer, self.event)
         elif self.count_date() <= LATE_DAYS:
             self.ticket = LateTicket(self.customer, self.event)
@@ -208,4 +208,4 @@ order3.sell_ticket()
 print(order1.ticket)
 print(order2.ticket)
 print(order3.ticket)
-# pprint(order2.construct_ticket("70833"))
+#pprint(order2.construct_ticket("70833"))

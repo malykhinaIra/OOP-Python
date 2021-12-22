@@ -81,7 +81,7 @@ class Composition:
             raise TypeError("Invalid type of product")
         for good in self.goods:
             if good.name == other and good.quantity:
-                return f'{other} is in stock'
+                return f'{other} is in stock: {good.quantity} items'
         return f'{other} is out of stock'
 
     def __str__(self):
@@ -93,9 +93,9 @@ goods += Product(20, 10, 'tomato')
 goods += Product(20, 1, 'tomato')
 goods += Product(30, 12, 'pineapple')
 goods += Product(15, 12, 'apple')
-goods += Product(15, 12, 'apple')
 
-
-print(goods * "apple")
-print(goods["apple"])
 print(goods["tomato"])
+print(goods * "apple")
+goods["apple"].quantity = 0
+print(goods * "apple")
+
